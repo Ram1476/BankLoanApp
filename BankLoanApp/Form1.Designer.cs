@@ -28,7 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblHead = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.lblID = new System.Windows.Forms.Label();
@@ -46,12 +47,9 @@
             this.LblTyp = new System.Windows.Forms.Label();
             this.btnCheck = new System.Windows.Forms.Button();
             this.chcklstStat = new System.Windows.Forms.CheckedListBox();
-            this.bankingDataSet = new BankLoanApp.BankingDataSet();
-            this.bankingDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.DisplayGrid = new System.Windows.Forms.DataGridView();
             this.CmbLoanType = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.bankingDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bankingDataSetBindingSource)).BeginInit();
+            this.btnDet = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DisplayGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,6 +102,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(265, 30);
             this.txtName.TabIndex = 4;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
             // lblCon
             // 
@@ -223,25 +222,29 @@
             this.chcklstStat.Size = new System.Drawing.Size(111, 25);
             this.chcklstStat.TabIndex = 27;
             // 
-            // bankingDataSet
-            // 
-            this.bankingDataSet.DataSetName = "BankingDataSet";
-            this.bankingDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // bankingDataSetBindingSource
-            // 
-            this.bankingDataSetBindingSource.DataSource = this.bankingDataSet;
-            this.bankingDataSetBindingSource.Position = 0;
-            // 
             // DisplayGrid
             // 
-            this.DisplayGrid.AutoGenerateColumns = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DisplayGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.DisplayGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DisplayGrid.DataSource = this.bankingDataSetBindingSource;
-            this.DisplayGrid.Location = new System.Drawing.Point(87, 381);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DisplayGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DisplayGrid.Location = new System.Drawing.Point(41, 381);
             this.DisplayGrid.Name = "DisplayGrid";
             this.DisplayGrid.ReadOnly = true;
-            this.DisplayGrid.Size = new System.Drawing.Size(894, 213);
+            this.DisplayGrid.Size = new System.Drawing.Size(930, 250);
             this.DisplayGrid.TabIndex = 29;
             // 
             // CmbLoanType
@@ -251,19 +254,31 @@
             this.CmbLoanType.Items.AddRange(new object[] {
             "Home Loan",
             "Car Loan",
-            "Educational Loan",
+            "Personal Loan",
             "Business Loan"});
             this.CmbLoanType.Location = new System.Drawing.Point(779, 274);
             this.CmbLoanType.Name = "CmbLoanType";
             this.CmbLoanType.Size = new System.Drawing.Size(168, 28);
             this.CmbLoanType.TabIndex = 30;
             // 
+            // btnDet
+            // 
+            this.btnDet.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDet.Location = new System.Drawing.Point(217, 322);
+            this.btnDet.Name = "btnDet";
+            this.btnDet.Size = new System.Drawing.Size(149, 40);
+            this.btnDet.TabIndex = 31;
+            this.btnDet.Text = "Customer Details";
+            this.btnDet.UseVisualStyleBackColor = true;
+            this.btnDet.Click += new System.EventHandler(this.btnDet_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.CadetBlue;
-            this.ClientSize = new System.Drawing.Size(1099, 619);
+            this.ClientSize = new System.Drawing.Size(1099, 657);
+            this.Controls.Add(this.btnDet);
             this.Controls.Add(this.CmbLoanType);
             this.Controls.Add(this.DisplayGrid);
             this.Controls.Add(this.chcklstStat);
@@ -283,10 +298,9 @@
             this.Controls.Add(this.lblID);
             this.Controls.Add(this.lblName);
             this.Controls.Add(this.lblHead);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.bankingDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bankingDataSetBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DisplayGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -312,10 +326,9 @@
         private System.Windows.Forms.Label LblTyp;
         private System.Windows.Forms.Button btnCheck;
         private System.Windows.Forms.CheckedListBox chcklstStat;
-        private System.Windows.Forms.BindingSource bankingDataSetBindingSource;
-        private BankingDataSet bankingDataSet;
         private System.Windows.Forms.DataGridView DisplayGrid;
         private System.Windows.Forms.ComboBox CmbLoanType;
+        private System.Windows.Forms.Button btnDet;
     }
 }
 

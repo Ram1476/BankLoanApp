@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Resources;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -19,7 +20,8 @@ namespace BankLoanApp
             InitializeComponent();
             DisplayGrid.Visible = false;
         }
-        
+        SqlConnection con = new SqlConnection("Data Source=DESKTOP-39SGDTH\\SQLEXPRESS;Initial Catalog=Banking;Integrated Security=True");
+        LoanEligibility le = new LoanEligibility();
         private void chckStat2_CheckedChanged(object sender, EventArgs e)
         {
 
@@ -27,53 +29,89 @@ namespace BankLoanApp
 
         private void btnCheck_Click(object sender, EventArgs e)
         {
-            DisplayGrid.Visible = true;
+            
             LoanManagement Customer1 = new LoanManagement();
-            Customer1.ID = Convert.ToInt32(txtID.Text);
-            Customer1.Name = txtName.Text;
-            Customer1.AccNo = Convert.ToInt64(txtAccNo.Text);
-            Customer1.Contactno = Convert.ToInt64(txtCon.Text);
+            Customer1.id = Convert.ToInt32(txtID.Text);
+            Customer1.name = txtName.Text;
+            Customer1.accNo = Convert.ToInt64(txtAccNo.Text);
+            Customer1.contactno = Convert.ToInt64(txtCon.Text);
             Customer1.income = Convert.ToInt64(txtIncome.Text);
             Customer1.lAmt = Convert.ToInt64(txtLAmt.Text);
-            try 
+            int len = (chcklstStat.CheckedIndices).Count;
+            Customer1.lType = CmbLoanType.Text;
+            
+            try
             {
-                Customer1.Status = chcklstStat.CheckedItems[0].ToString();
+                if (len != 0)
+                {
+                    Customer1.Status = chcklstStat.CheckedItems[0].ToString();
+                    if (le.CheckStatus(Customer1))
+                    {
+                        MessageBox.Show($"Based on your Income You are eligilbe for {Customer1.lType}");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Based on your Income you are not Eligible for {Customer1.lType}");
+                    }
+                    SqlCommand DA = new SqlCommand($"INSERT INTO\tcustomersDetails(cus_id,cus_name,cus_Acc_No,cus_Contact_no,Employment_Status" +
+                        $",Current_Income,Loan_Amt,Loan_type,Eligibility)\r\nvalues('{Customer1.id}','{Customer1.name}',{Customer1.accNo},{Customer1.contactno},'{Customer1.Status.ToUpper()}',{Customer1.income},{Customer1.lAmt},'{Customer1.lType}','{Customer1.eligible}');", con);
+                    con.Open();
+
+                    DA.ExecuteNonQuery();
+                    con.Close();
+                    MessageBox.Show("Customer Detail Successfully Added to the Database");
+                }
+                else 
+                {
+                    Customer1.Status = "In Active";
+                    if (le.CheckStatus(Customer1))
+                    {
+                        MessageBox.Show($"Based on your Income You are eligilbe for {Customer1.lType}");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Based on your Income you are not Eligible for {Customer1.lType}");
+                    }
+                    SqlCommand DA = new SqlCommand($"INSERT INTO\tcustomersDetails(cus_id,cus_name,cus_Acc_No,cus_Contact_no" +
+                        $",Current_Income,Loan_Amt,Loan_type,Eligibility)\r\nvalues('{Customer1.id}','{Customer1.name}',{Customer1.accNo},{Customer1.contactno},{Customer1.income},{Customer1.lAmt},'{Customer1.lType}','{Customer1.eligible}');", con);
+                    con.Open();
+
+                    DA.ExecuteNonQuery();
+                    con.Close();
+                    MessageBox.Show("Customer Detail Successfully Added to the Database");
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Please enter a Valid Value for the Employee Status" + Environment.NewLine + ex.Message);
+                MessageBox.Show("Error processing Customer Details - Not added to the Database:"+ Environment.NewLine + ex.Message);
             }
-           
-            Customer1.lType = CmbLoanType.Text;
-            try
-            {
-                SqlConnection con = new SqlConnection("Data Source=NLTI151\\SQLEXPRESS;Initial Catalog=Banking;Integrated Security=True");
-
-                SqlCommand DA = new SqlCommand($"INSERT INTO\tcustomerDetails(cus_id,cus_name,cus_Acc_No,cus_Contact_no,Employment_Status" +
-                    $",Current_Income,Loan_Amount,Loan_type,Eligibility)\r\nvalues('{Customer1.ID}','{Customer1.Name}',{Customer1.AccNo},{Customer1.Contactno},'{Customer1.Status}',{Customer1.income},{Customer1.lAmt},'{Customer1.lType}','{Customer1.Eligible}');",con);
-                con.Open();
-
-                DA.ExecuteNonQuery(); 
-                con.Close();
-                SqlDataAdapter da = new SqlDataAdapter("select * from customerDetails",con);
-
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                //string s = " ";
-                //foreach(DataRow dr in dt.Rows) 
-                //{
-                //    s+= dr[0].ToString() + "|" + dr[1].ToString() + "|" + dr[2].ToString() + "|" + dr[3].ToString() + "|" + dr[4].ToString() + "|" + dr[5].ToString()
-                //        + "|" + dr[6].ToString() + "|" + dr[7].ToString() + "|" + dr[8].ToString()+"\r\n";
-                //}
-               DisplayGrid.DataSource = dt;
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show(ex.Message);
-            }
+             
+            
 
         }
 
-        
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDet_Click(object sender, EventArgs e)
+        {
+            DisplayGrid.Visible = true;
+
+            try 
+            {
+                SqlDataAdapter da = new SqlDataAdapter("select * from customersDetails where eligibility = 'Eligible for Loan';", con);
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                da.Fill(ds, "customersDetails");
+                DisplayGrid.DataSource = ds.Tables["customersDetails"].DefaultView;
+                MessageBox.Show("Customer Details Successfully Displayed"); 
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show("Error Displaying the Customer's Details: " + Environment.NewLine + ex.Message);
+            }
+        }
     }
 }
