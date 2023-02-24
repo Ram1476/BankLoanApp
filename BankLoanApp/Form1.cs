@@ -20,7 +20,8 @@ namespace BankLoanApp
             InitializeComponent();
             DisplayGrid.Visible = false;
         }
-        SqlConnection con = new SqlConnection("Data Source=DESKTOP-39SGDTH\\SQLEXPRESS;Initial Catalog=Banking;Integrated Security=True");
+        
+        SqlConnection con = new SqlConnection("Data Source=NLTI151\\SQLEXPRESS;Initial Catalog=Banking;Integrated Security=True");
         LoanEligibility le = new LoanEligibility();
         private void chckStat2_CheckedChanged(object sender, EventArgs e)
         {
@@ -53,8 +54,8 @@ namespace BankLoanApp
                     {
                         MessageBox.Show($"Based on your Income you are not Eligible for {Customer1.lType}");
                     }
-                    SqlCommand DA = new SqlCommand($"INSERT INTO\tcustomersDetails(cus_id,cus_name,cus_Acc_No,cus_Contact_no,Employment_Status" +
-                        $",Current_Income,Loan_Amt,Loan_type,Eligibility)\r\nvalues('{Customer1.id}','{Customer1.name}',{Customer1.accNo},{Customer1.contactno},'{Customer1.Status.ToUpper()}',{Customer1.income},{Customer1.lAmt},'{Customer1.lType}','{Customer1.eligible}');", con);
+                    SqlCommand DA = new SqlCommand($"INSERT INTO\tcustomerDetails(cus_id,cus_name,cus_Acc_No,cus_Contact_no,Employment_Status" +
+                        $",Current_Income,Loan_Amount,Loan_type,Eligibility)\r\nvalues('{Customer1.id}','{Customer1.name}',{Customer1.accNo},{Customer1.contactno},'{Customer1.Status.ToUpper()}',{Customer1.income},{Customer1.lAmt},'{Customer1.lType}','{Customer1.eligible}');", con);
                     con.Open();
 
                     DA.ExecuteNonQuery();
@@ -72,8 +73,8 @@ namespace BankLoanApp
                     {
                         MessageBox.Show($"Based on your Income you are not Eligible for {Customer1.lType}");
                     }
-                    SqlCommand DA = new SqlCommand($"INSERT INTO\tcustomersDetails(cus_id,cus_name,cus_Acc_No,cus_Contact_no" +
-                        $",Current_Income,Loan_Amt,Loan_type,Eligibility)\r\nvalues('{Customer1.id}','{Customer1.name}',{Customer1.accNo},{Customer1.contactno},{Customer1.income},{Customer1.lAmt},'{Customer1.lType}','{Customer1.eligible}');", con);
+                    SqlCommand DA = new SqlCommand($"INSERT INTO\tcustomerDetails(cus_id,cus_name,cus_Acc_No,cus_Contact_no" +
+                        $",Current_Income,Loan_Amount,Loan_type,Eligibility)\r\nvalues('{Customer1.id}','{Customer1.name}',{Customer1.accNo},{Customer1.contactno},{Customer1.income},{Customer1.lAmt},'{Customer1.lType}','{Customer1.eligible}');", con);
                     con.Open();
 
                     DA.ExecuteNonQuery();
@@ -101,17 +102,25 @@ namespace BankLoanApp
 
             try 
             {
-                SqlDataAdapter da = new SqlDataAdapter("select * from customersDetails where eligibility = 'Eligible for Loan';", con);
+                SqlDataAdapter da = new SqlDataAdapter("select * from customerDetails where eligibility = 'Eligible for Loan';", con);
                 DataTable dt = new DataTable();
                 DataSet ds = new DataSet();
-                da.Fill(ds, "customersDetails");
-                DisplayGrid.DataSource = ds.Tables["customersDetails"].DefaultView;
+                da.Fill(ds, "customerDetails");
+                DisplayGrid.DataSource = ds.Tables["customerDetails"].DefaultView;
                 MessageBox.Show("Customer Details Successfully Displayed"); 
             }
             catch (Exception ex) 
             {
                 MessageBox.Show("Error Displaying the Customer's Details: " + Environment.NewLine + ex.Message);
             }
+        }
+
+        private void btndetail_Click(object sender, EventArgs e)
+        {
+            string loanAmt = txtLAmt.Text;
+            Checker val = new Checker(loanAmt);
+            val.Show();
+            
         }
     }
 }
