@@ -122,5 +122,10 @@ namespace BankLoanApp
             val.Show();
             
         }
+
+        private void txtCon_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

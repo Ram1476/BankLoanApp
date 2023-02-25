@@ -30,13 +30,20 @@ namespace BankLoanApp
             double.TryParse(txtLoanAmt.Text, out P);
             double R;
             double.TryParse(txtInt.Text, out (R));
-            double cal = (Math.Round(((R / 12) / 100),4));
-            R = cal;
+            double rm = Math.Round(((R / 12) / 100), 5);
             double N;
             double.TryParse(txtTenure.Text, out N);
             double Calculate;
-            Calculate = ((P * R * Math.Pow((1 + R), N)) / ( Math.Pow((1 + R) ,(N)))-1);
-            txtCal.Text = "$"+(Math.Round(Calculate)).ToString();
+            double Q = Math.Pow((1 + rm), N);
+            double dow = (Q - 1);
+            double divide = Q / dow;
+            Calculate = P * rm * (divide);
+            txtCal.Text = "$"+" "+ (Math.Round(Calculate)).ToString();
+            double total = Math.Round(Calculate * N);
+            double intAmt = Math.Round((total - P));
+            txtintAmt.Text = "$" + " " + intAmt.ToString();
+            txtTotal.Text = "$" + " " + total.ToString();
+
         }
 
         private void lblLAmt_Click(object sender, EventArgs e)

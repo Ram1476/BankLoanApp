@@ -37,18 +37,22 @@
             this.txtInt = new System.Windows.Forms.TextBox();
             this.btnEmi = new System.Windows.Forms.Button();
             this.txtCal = new System.Windows.Forms.TextBox();
-            this.lblText = new System.Windows.Forms.Label();
+            this.lblEMIPM = new System.Windows.Forms.Label();
             this.lblInterest = new System.Windows.Forms.Label();
+            this.txtintAmt = new System.Windows.Forms.TextBox();
+            this.lblIntAmt = new System.Windows.Forms.Label();
+            this.txtTotal = new System.Windows.Forms.TextBox();
+            this.lblTotal = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Georgia Pro Cond", 21.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(186, 25);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(290, 34);
+            this.label1.Size = new System.Drawing.Size(297, 33);
             this.label1.TabIndex = 1;
             this.label1.Text = "Loan EMI Calculator";
             // 
@@ -114,7 +118,7 @@
             // btnEmi
             // 
             this.btnEmi.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEmi.Location = new System.Drawing.Point(52, 364);
+            this.btnEmi.Location = new System.Drawing.Point(263, 533);
             this.btnEmi.Name = "btnEmi";
             this.btnEmi.Size = new System.Drawing.Size(149, 37);
             this.btnEmi.TabIndex = 9;
@@ -131,17 +135,17 @@
             this.txtCal.Size = new System.Drawing.Size(162, 37);
             this.txtCal.TabIndex = 10;
             // 
-            // lblText
+            // lblEMIPM
             // 
-            this.lblText.AutoSize = true;
-            this.lblText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblText.Location = new System.Drawing.Point(447, 315);
-            this.lblText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblText.Name = "lblText";
-            this.lblText.Size = new System.Drawing.Size(52, 24);
-            this.lblText.TabIndex = 11;
-            this.lblText.Text = "EMI ";
-            this.lblText.Click += new System.EventHandler(this.lblText_Click);
+            this.lblEMIPM.AutoSize = true;
+            this.lblEMIPM.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEMIPM.Location = new System.Drawing.Point(48, 315);
+            this.lblEMIPM.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblEMIPM.Name = "lblEMIPM";
+            this.lblEMIPM.Size = new System.Drawing.Size(159, 24);
+            this.lblEMIPM.TabIndex = 11;
+            this.lblEMIPM.Text = "EMI per month :";
+            this.lblEMIPM.Click += new System.EventHandler(this.lblText_Click);
             // 
             // lblInterest
             // 
@@ -154,14 +158,58 @@
             this.lblInterest.TabIndex = 12;
             this.lblInterest.Text = "%";
             // 
+            // txtintAmt
+            // 
+            this.txtintAmt.Location = new System.Drawing.Point(263, 372);
+            this.txtintAmt.Multiline = true;
+            this.txtintAmt.Name = "txtintAmt";
+            this.txtintAmt.ReadOnly = true;
+            this.txtintAmt.Size = new System.Drawing.Size(162, 37);
+            this.txtintAmt.TabIndex = 13;
+            // 
+            // lblIntAmt
+            // 
+            this.lblIntAmt.AutoSize = true;
+            this.lblIntAmt.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIntAmt.Location = new System.Drawing.Point(48, 385);
+            this.lblIntAmt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblIntAmt.Name = "lblIntAmt";
+            this.lblIntAmt.Size = new System.Drawing.Size(168, 24);
+            this.lblIntAmt.TabIndex = 14;
+            this.lblIntAmt.Text = "Interest Amount :";
+            // 
+            // txtTotal
+            // 
+            this.txtTotal.Location = new System.Drawing.Point(263, 438);
+            this.txtTotal.Multiline = true;
+            this.txtTotal.Name = "txtTotal";
+            this.txtTotal.ReadOnly = true;
+            this.txtTotal.Size = new System.Drawing.Size(162, 37);
+            this.txtTotal.TabIndex = 15;
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotal.Location = new System.Drawing.Point(48, 451);
+            this.lblTotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(146, 24);
+            this.lblTotal.TabIndex = 16;
+            this.lblTotal.Text = "Total Amount :";
+            // 
             // Checker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(747, 645);
+            this.Controls.Add(this.lblTotal);
+            this.Controls.Add(this.txtTotal);
+            this.Controls.Add(this.lblIntAmt);
+            this.Controls.Add(this.txtintAmt);
             this.Controls.Add(this.lblInterest);
-            this.Controls.Add(this.lblText);
+            this.Controls.Add(this.lblEMIPM);
             this.Controls.Add(this.txtCal);
             this.Controls.Add(this.btnEmi);
             this.Controls.Add(this.txtInt);
@@ -190,7 +238,11 @@
         private System.Windows.Forms.TextBox txtInt;
         private System.Windows.Forms.Button btnEmi;
         private System.Windows.Forms.TextBox txtCal;
-        private System.Windows.Forms.Label lblText;
+        private System.Windows.Forms.Label lblEMIPM;
         private System.Windows.Forms.Label lblInterest;
+        private System.Windows.Forms.TextBox txtintAmt;
+        private System.Windows.Forms.Label lblIntAmt;
+        private System.Windows.Forms.TextBox txtTotal;
+        private System.Windows.Forms.Label lblTotal;
     }
 }
